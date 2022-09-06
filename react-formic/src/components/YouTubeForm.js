@@ -1,35 +1,37 @@
-import {useFormik} from 'formik'
+import { useFormik } from "formik";
 
-const initialValues =  {
-    name: "",
-    email: "",
-    channel: "",
+const initialValues = {
+  name: "",
+  email: "",
+  channel: "",
+};
+
+const onSubmit = (value) => {
+  console.log(value);
+};
+
+const validate = (values) => {
+  let errors = {};
+
+  if (!values.name) {
+    errors.name = "Requird";
   }
 
-const onSubmit = value => {
-    console.log(value)
-}
+  if (!values.email) {
+    errors.email = "Requird";
+  } else if (
+    !/[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]{2,3}/i.test(values.email)
+  ) {
+    errors.email = "Envalid email format";
+  }
 
-const validate = values => {
-    let errors = {}
+  if (!values.channel) {
+    errors.channel = "Requird";
+  }
 
-    if(!values.name){
-        errors.name = 'Requird'
-    }
-
-    if(!values.email){
-        errors.email = 'Requird'
-    }else if (! /[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]{2,3}/){
-        errors.email = "Envalid email format"
-    }
-
-    if(!values.channel){
-        errors.channel = 'Requird'
-    }
-}
-
+  return errors;
+};
 function YouTubeForm() {
-    
   const formik = useFormik({
     initialValues,
     onSubmit,
@@ -44,8 +46,12 @@ function YouTubeForm() {
         id="name"
         name="name"
         onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
         value={formik.values.name}
       />
+      {formik.touched.name && formik.errors.name ? (
+        <div>{formik.errors.name}</div>
+      ) : null}
 
       <lable htmlFor="email">E-mail</lable>
       <input
@@ -53,8 +59,12 @@ function YouTubeForm() {
         id="email"
         name="email"
         onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
         value={formik.values.email}
       />
+      {formik.touched.email && formik.errors.email ? (
+        <div>{formik.errors.email}</div>
+      ) : null}
 
       <lable htmlFor="channel">channel</lable>
       <input
@@ -62,16 +72,16 @@ function YouTubeForm() {
         id="channel"
         name="channel"
         onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
         value={formik.values.channel}
       />
+      {formik.touched.channel && formik.errors.channel ? (
+        <div>{formik.errors.channel}</div>
+      ) : null}
 
-      <button type='submit'>Submit</button>
+      <button type="submit">Submit</button>
     </form>
   );
 }
 
 export default YouTubeForm;
-
-//npm i formik
-//import the hook useFormik
-//pass the insitalvalue for the form
