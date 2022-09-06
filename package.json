@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "formic": "^0.0.10",
+    "formik": "^2.2.9"
+  }
+}
